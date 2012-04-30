@@ -386,7 +386,9 @@ describe("xml parser", function () {
         mockParsing(data);
 
         expect(function () {
-            configParser.parse(configPath, session, function (configObj) {});
+            configParser.parse(configPath, session, function (configObj) {
+                expect(configObj.splashscreen).toEqual("test.JPG:anything.png");
+            });
         }).not.toThrow();
     });
 
