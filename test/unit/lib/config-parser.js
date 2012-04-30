@@ -378,4 +378,26 @@ describe("xml parser", function () {
             configParser.parse(configPath, session, {});
         }).toThrow(localize.translate("EXCEPTION_INVALID_AUTHOR"));
     });
+
+    it("does not throw error when a valid splash screen image is specified", function () {
+        var data = testUtilities.cloneObj(testData.xml2jsConfig);
+        data["rim:splashscreen"] = "test.JPG:anything.png";
+
+        mockParsing(data);
+
+        expect(function () {
+            configParser.parse(configPath, session, function (configObj) {});
+        }).not.toThrow();
+    });
+
+    it("throws error when an invalid splash screen image is specified", function () {
+        var data = testUtilities.cloneObj(testData.xml2jsConfig);
+        data["rim:splashscreen"] = "test.png:blah.gif";
+
+        mockParsing(data);
+
+        expect(function () {
+            configParser.parse(configPath, session, function (configObj) {});
+        }).toThrow(localize.translate("EXCEPTION_INVALID_SPLASH_SCREEN_IMG"));
+    });
 });
